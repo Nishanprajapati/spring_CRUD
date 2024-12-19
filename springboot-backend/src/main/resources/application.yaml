@@ -1,0 +1,3 @@
+logging:
+  level:
+    net.java.springboot_backend.controller: DEBUG
