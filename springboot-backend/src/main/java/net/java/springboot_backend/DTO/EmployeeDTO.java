@@ -1,14 +1,23 @@
-package net.java.springboot_backend.DTO;
+package net.java.springboot_backend.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
-public class EmployeeDTO {
+public class EmployeeDto {
+
+    @NotEmpty
+    @Size(min = 2,message ="Firstname must be minimum of 2 character")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotEmpty
+    @Size(min = 2,message ="Lastname must be minimum of 2 character")
     @Column(name = "last_name")
     private String lastName;
 
+    @Email(message ="Email is not valid")
     @Column(name = "email_id")
     private String emailId;
 
