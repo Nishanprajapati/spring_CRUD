@@ -8,8 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AddressService {
+
+
+    private final AddressRepository addressRepository;
     @Autowired
-    private AddressRepository addressRepository;
+    public AddressService(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
+
 
     @Transactional
     public void addAddressToo(Address address) {

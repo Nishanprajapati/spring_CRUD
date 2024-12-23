@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import net.java.springboot_backend.dto.EmployeeDto;
+import net.java.springboot_backend.dto.EmployeeDTO;
 import net.java.springboot_backend.model.Employee;
 import net.java.springboot_backend.service.EmployeeService;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 @RequestMapping("/api/v1/employees")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
     public EmployeeController(EmployeeService employeeservice) {
         this.employeeService = employeeservice;
     }
@@ -32,7 +32,7 @@ public class EmployeeController {
             @ApiResponse(responseCode = "404", description = "Employee not found")
     })
     @PostMapping("/add")
-    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody EmployeeDto employeeDTO) {
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
 
        Employee addEmployee = employeeService.saveEmployee(employeeDTO);
         return new ResponseEntity<>(addEmployee, HttpStatus.CREATED);
@@ -64,7 +64,7 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private Logger logInfo = (Logger) LoggerFactory.getLogger(EmployeeController.class);
+    private final Logger logInfo = (Logger) LoggerFactory.getLogger(EmployeeController.class);
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         logInfo.info("Fetching all employees");

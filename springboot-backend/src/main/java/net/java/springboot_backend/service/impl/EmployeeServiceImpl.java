@@ -1,6 +1,8 @@
 package net.java.springboot_backend.service.impl;
 
-import net.java.springboot_backend.dto.EmployeeDto;
+import net.java.springboot_backend.dto.EmployeeDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import net.java.springboot_backend.service.EmailSenderService;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,9 +24,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 
-    private EmployeeRepository employeeRepository;
-    private AddressService addressService;
-    private EmailSenderService emailSenderService;
+    private final EmployeeRepository employeeRepository;
+    private final AddressService addressService;
+    private final EmailSenderService emailSenderService;
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, AddressService addressService, EmailSenderService emailSenderService) {
         this.employeeRepository = employeeRepository;
@@ -47,23 +49,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public Employee saveEmployee(EmployeeDto employeeDTO) {
+    public Employee saveEmployee(EmployeeDTO employeeDTO) {
         // code to convert dto to entity
         System.out.println("Thread running saveEmployee method: " + Thread.currentThread().getName());
         Employee employee = EmployeePopulator.INSTANCE.populateEmployee(employeeDTO);
 
-        //set address for employee
         Address address =new Address();
         address.setName("Kathmandu");
         employee.setAddress(address);
-
-        //save address and employee
         addressService.addAddressToo(address);
         employee = employeeRepository.save(employee);
 
-        ///sending email asynchronously
         emailSenderService.sendEmail("nisan11prajapati@gmail.com","This is subject","This is text");
-
         emailSenderService.sendEmail("nishan.201621@ncit.edu.np","This is subject","This is text");
 
         return employee;
@@ -79,8 +76,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         Employee newEmployee = new Employee();
-        newEmployee.setFirstName("AAAAAA");
-        newEmployee.setLastName("BBBBBB");
+        newEmployee.setFirstName("ram");
+        newEmployee.setLastName("hari");
         newEmployee.setEmailId("newemail@gmail.com");
         employeeRepository.save(newEmployee);
 
@@ -103,9 +100,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     public void customQuery() {
-        List<Employee> findEmployee =employeeRepository.getByFirstName("Nishan");
-        findEmployee.forEach(e-> { System.out.println(e);});
+        List<Employee> findEmployee = employeeRepository.getByFirstName("Nishan");
+        findEmployee.forEach(e -> {
+            logger.info("Employee: {}", e);
+        });
     }
 
 

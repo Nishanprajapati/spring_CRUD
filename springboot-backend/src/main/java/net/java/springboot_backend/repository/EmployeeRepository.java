@@ -25,5 +25,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
            @QueryHint(name = "javax.persistence.cache.storeMode",value = "USE"),
 
    })
-    public List<Employee> getByFirstName(@Param("n") String name);
+   List<Employee> getByFirstName(@Param("n") String name);
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-public class EmployeeDto {
+public class EmployeeDTO {
 
     @NotEmpty
     @Size(min = 2,message ="Firstname must be minimum of 2 character")
